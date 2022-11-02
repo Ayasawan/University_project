@@ -123,27 +123,31 @@ class PassportAuthController extends Controller
 
     public function userLogin(Request $request)
     {
-        $Validator = Validator::make($request->all(), [
-            'phone_number' => [  'string','min:9'],
-            'email'=>['string','email'],
-            'password'=>['required', 'string' , 'min:8'],
-        ]);
-        if($Validator->fails()) {
-            return response()->json(['status' => 400 ,'message' => $Validator->errors()->messages() , 'data'=>null], Response::HTTP_BAD_REQUEST);
-        }
-        $email = $request->input('email');
-        $password = $request->input('password');
-        $phone_number = $request->input('phone_number');
 
-        if(!Auth::attempt(['email' => $email, 'password' => $password]) ||
-            (!Auth::attempt(['phone_number' => $phone_number, 'password' => $password]))){
-            return response()->json(['status' => 422 ,"message"=> "Invalid account", 'data'=>null],Response::HTTP_UNPROCESSABLE_ENTITY);}
-        $user=$request->user();
-        $tokenResult=$user->createToken('Personal Access Token');
-        $data["user"] = $user;
-        $data["token_type"]='Bearer';
-        $data["access_token"]=$tokenResult->accessToken;
-        return response()->json(['status'=> 200 ,'message'=>'login successful' , 'data'=>$data],Response::HTTP_OK);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+           // 'phone_number' => [  'string','min:9'],
+            'password' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
+//        if(!Auth::attempt(['email' => $email, 'password' => $password]) ||
+//            (!Auth::attempt(['phone_number' => $phone_number, 'password' => $password]))){
+        if(auth()->guard('user')->attempt(['email' => request('email'), 'password' => request('password')])){
+
+            config(['auth.guards.api.provider' => 'user']);
+
+            $user = User::select('users.*')->find(auth()->guard('user')->user()->id);
+            $success =  $user;
+            $success["user_type"] = 'user ';
+            $success['token'] =  $user->createToken('MyApp',['user'])->accessToken;
+
+            return response()->json($success, 200);
+        }else{
+            return response()->json(['error' => ['Email and Password are Wrong.']], 401);
+        }
     }
 
 
@@ -178,7 +182,7 @@ class PassportAuthController extends Controller
 
         }
     }
-        return $this->apiResponse(null, 'The User can show his products.', 201);
+        return $this->apiResponse(null, 'The user does not have permissions.', 201);
     }
 
 

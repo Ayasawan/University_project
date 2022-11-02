@@ -24,8 +24,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
-    Route::get('userInfo',[PassportAuthController::class,'userInfo'])->name('userInfo');
     Route::get('logout',[PassportAuthController::class,'logout'])->name('Logout');
+    Route::get('userInfo',[PassportAuthController::class,'userInfo'])->name('userInfo');
+
 
     Route::post('update/{id}',[\App\Http\Controllers\PassportAuthController::class,'update_informations_user']);
     Route::post('change/{id}',[\App\Http\Controllers\PassportAuthController::class,'change_password']);
