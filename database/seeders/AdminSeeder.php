@@ -18,21 +18,15 @@ class AdminSeeder extends Seeder
 
         $admins=[
             [
-                'name'=> 'abeer',
-                'user_type' =>'admin',
+                'name'=> 'employee_1',
+                'user_type' =>'employee',
                 'email' =>'abee@r.com',
                 'password'=>bcrypt('123123123'),
             ],
-            [
-                'name'=> 'shaza',
-                'user_type' =>'admin',
 
-                'email' =>'shaz@a.com',
-                'password'=>bcrypt('123123123'),
-            ],
             [
-                'name'=> 'aya',
-                'user_type' =>'admin',
+                'name'=> 'employee_2',
+                'user_type' =>'employee',
                 'email' =>'aya@google.com',
                 'password'=>bcrypt('0932'),
 

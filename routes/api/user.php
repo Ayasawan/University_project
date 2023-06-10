@@ -16,8 +16,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('user/register', [PassportAuthController::class, 'register'])->name('register');
-Route::post('user/login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
+Route::post('register', [PassportAuthController::class, 'register'])->name('register');
+Route::post('login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
+
+Route::post('Complaint', [\App\Http\Controllers\ComplaintController::class, 'store']);
+Route::get('Complaint', [\App\Http\Controllers\ComplaintController::class, 'index']);
+Route::get('Complaint/{id}', [\App\Http\Controllers\ComplaintController::class, 'show']);
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -31,9 +36,6 @@ Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user']
     Route::post('update/{id}',[\App\Http\Controllers\PassportAuthController::class,'update_informations_user']);
     Route::post('change/{id}',[\App\Http\Controllers\PassportAuthController::class,'change_password']);
 
-
-    // Show a particular user with its products
-    Route::get('product',[\App\Http\Controllers\ProductController::class,'us_index']);
 
 
 
