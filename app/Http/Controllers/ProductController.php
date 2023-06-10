@@ -63,25 +63,6 @@ class ProductController extends Controller
 
 
 
-    public function update(Request $request,  $id)
-    {
-        $products= Product::find($id);
-        if(!$products)
-        {
-            return $this->apiResponse(null ,'the products not found ',404);
-        }
-
-        $products->update($request->all());
-        $file_name=$this->saveImage($request->image,'images/product');
-        $products->image= $file_name;
-        $products->update(['image' => $file_name]);
-
-        if($products)
-        {
-            return $this->apiResponse(new  ProductResource($products) , 'the products update',201);
-        }
-    }
-
 
     public function destroy( $id)
     {

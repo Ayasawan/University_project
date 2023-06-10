@@ -23,7 +23,6 @@ Route::group( ['prefix' => 'admin','middleware' => ['auth:admin-api','scopes:adm
     Route::get('index',[PassportAuthController::class,'index'])->name('index');
 
     //route for products
-    Route::post('products/{id}',[\App\Http\Controllers\ProductController::class,'update']);
 
     Route::delete('products/{id}',[\App\Http\Controllers\ProductController::class,'destroy']);
 
