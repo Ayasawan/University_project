@@ -15,7 +15,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::prefix("complaints")->group(function (){
+    Route::get('/',[\App\Http\Controllers\CommentController::class,'index']);
+    Route::post('/',[\App\Http\Controllers\CommentController::class,'store']);
+//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'update']);
+//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'destroy']);
+});
 Route::post('register', [PassportAuthController::class, 'register'])->name('register');
 Route::post('login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
 

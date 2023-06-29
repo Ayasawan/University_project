@@ -17,7 +17,6 @@ class ComplaintController extends Controller
         return $this->apiResponse($Complaint, 'ok', 200);
     }
 
-
     public function store(Request $request)
     {
         $input=$request->all();
@@ -45,31 +44,35 @@ class ComplaintController extends Controller
         return $this->apiResponse(null ,'the Complaint not found' ,404);
 
     }
-    public function edit($id)
+
+
+    public function update(Request $request,  $id)
     {
-        //
+        $Complaint= Complaint::find($id);
+        if(!$Complaint)
+        {
+            return $this->apiResponse(null ,'the Complaint not found ',404);
+        }
+        $Complaint->update($request->all());
+        if($Complaint)
+        {
+            return $this->apiResponse(new ComplaintResource($Complaint) , 'the Complaint update',201);
+
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+
+    public function destroy( $id)
     {
-        //
+        $Complaint = Complaint::find($id);
+        if(!$Complaint)
+        {
+            return $this->apiResponse(null ,'the Complaint not found ',404);
+        }
+        $Complaint->delete($id);
+        if($Complaint)
+            return $this->apiResponse(null ,'the Complaint delete ',200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

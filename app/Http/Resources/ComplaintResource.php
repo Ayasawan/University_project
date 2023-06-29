@@ -14,6 +14,11 @@ class ComplaintResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+
+return [
+"id"=>$this->id,
+"content"=>$this->content,
+"comments of complaint"=>$this->comments()->get(),
+];
     }
 }

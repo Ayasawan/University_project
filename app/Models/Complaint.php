@@ -12,6 +12,10 @@ class Complaint extends Model
 
     protected $fillable = ['content'];
 
+    public function comments(){
+        return $this->hasMany( Comment::class,'complaint_id');
+    }
+}
 
 //    protected $fillable = ['user_id', 'content'];
 
@@ -19,4 +23,4 @@ class Complaint extends Model
 //    {
 //        return $this->belongsTo(User::class);
 //    }
-}
+
