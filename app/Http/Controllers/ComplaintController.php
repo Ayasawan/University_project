@@ -62,17 +62,17 @@ class ComplaintController extends Controller
     }
 
 
-
-    public function destroy( $id)
-    {
-        $Complaint = Complaint::find($id);
-        if(!$Complaint)
-        {
-            return $this->apiResponse(null ,'the Complaint not found ',404);
-        }
-        $Complaint->delete($id);
-        if($Complaint)
-            return $this->apiResponse(null ,'the Complaint delete ',200);
-    }
+//
+//    public function destroy( $id)
+//    {
+//        $Complaint = Complaint::find($id);
+//        if(!$Complaint)
+//        {
+//            return $this->apiResponse(null ,'the Complaint not found ',404);
+//        }
+//        $Complaint->delete($id);
+//        if($Complaint)
+//            return $this->apiResponse(null ,'the Complaint delete ',200);
+//    }
 
 }
