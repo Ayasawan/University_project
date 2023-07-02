@@ -15,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::prefix("DetectingMark")->group(function (){
+    Route::get('/',[\App\Http\Controllers\DetectingMarkController::class,'index']);
+    Route::get('/{id}',[\App\Http\Controllers\DetectingMarkController::class,'index']);
+
+    Route::post('/',[\App\Http\Controllers\DetectingMarkController::class,'store']);
+    Route::post('update/{id}',[\App\Http\Controllers\DetectingMarkController::class,'update']);
+    Route::post('delete/{id}',[\App\Http\Controllers\DetectingMarkController::class,'destroy']);
+});
+
 Route::prefix("complaints")->group(function (){
     Route::get('/',[\App\Http\Controllers\CommentController::class,'index']);
     Route::post('/',[\App\Http\Controllers\CommentController::class,'store']);
@@ -36,7 +45,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
     Route::get('logout',[PassportAuthController::class,'logout'])->name('Logout');
     Route::get('userInfo',[PassportAuthController::class,'userInfo'])->name('userInfo');
-
 
     Route::post('update/{id}',[\App\Http\Controllers\PassportAuthController::class,'update_informations_user']);
     Route::post('change/{id}',[\App\Http\Controllers\PassportAuthController::class,'change_password']);
