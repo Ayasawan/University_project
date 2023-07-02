@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserResource;
 use App\Models\Admin;
 use App\Models\User;
-
+use App\Models\Employee;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -37,50 +37,95 @@ class PassportAuthController extends Controller
 
     }
 
-    public function register(Request $request){
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function register(Request $request)
+    {
         $validator = Validator::make($request->all(),[
-            'first_name' => [ 'required' , 'string','min:3'],
-            'last_name' => [ 'required' , 'string','min:3'],
-            'email' => ['required_without:phone_number', 'nullable'],
-            'phone_number' => ['required_without:email', 'nullable', 'numeric'],
+            'NationalNumber' => ['required', 'min:10', 'max:14', 'regex:/^[0-9]+$/', 'exists:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$request->NationalNumber.',NationalNumber'],
             'password' => ['required', 'string', 'min:8'],
-
         ]);
-        if ($validator->fails())
-        {
-            return response(['errors'=>$validator->errors()->all()], 401);
+    
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 401);
         }
-        $request['password'] = Hash::make($request['password']);
-
-        $user = User::create([
-            'first_name'=> $request->first_name,
-            'last_name'=> $request->last_name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'phone_number' =>$request->phone_number,
-            'login_date'=> date("d/m/y"),
-
-        ]);
-        if( $tokenResult = $user->createToken('Personal Access Token')) {
-            $data["message"] = 'User Successfully registered';
-            $data["user_type"] = 'user ';
+    
+        $national = $request->NationalNumber;
+        $user = User::where('NationalNumber', $national)->first();
+    
+        if (!$user) {
+            return $this->apiResponse(null, 'Sorry, you do not have an account in this system', 404);
+        }
+    
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+    
+        if ($tokenResult = $user->createToken('Personal Access Token')) {
+            $data["message"] = 'User successfully registered';
+            $data["user_type"] = 'user';
             $data["user"] = $user;
             $data["token_type"] = 'Bearer';
             $data["access_token"] = $tokenResult->accessToken;
-
+    
             return response()->json($data, Response::HTTP_OK);
         }
-
-        response()->json('error', 401);
-        return response()->json(['error' => ['Email and Password are Wrong.']], 401);
-
+    
+        return response()->json(['error' => ['Email and Password are wrong.']], 401);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function logout(Request $request)
     {
-        $token = $request->user()->token();
-        $token->revoke();
+        Auth::guard('user-api')->user()->token()->revoke();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
@@ -112,6 +157,10 @@ class PassportAuthController extends Controller
 
 
 
+
+
+
+
     public function adminlogout(Request $request)
     {
         $token=$request->user()->token();
@@ -120,6 +169,12 @@ class PassportAuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
+
+
+
+
+
+
 
 
     public function userLogin(Request $request)
@@ -152,6 +207,10 @@ class PassportAuthController extends Controller
     }
 
 
+
+
+
+
     public function show($id)
     {
         $user= User::find($id);
@@ -160,6 +219,11 @@ class PassportAuthController extends Controller
         }
         return $this->apiResponse(null ,'the user not found' ,404);
     }
+
+
+
+
+
 
 
     public function update_informations_user(Request $request , $id)
@@ -187,6 +251,8 @@ class PassportAuthController extends Controller
     }
 
 
+
+
     public function change_password(Request $request , $id){
          if( $id==auth()->id()){
         $Validator = Validator::make($request->all(), [
@@ -210,6 +276,58 @@ class PassportAuthController extends Controller
         }
         }
         return $this->apiResponse(null, 'The password update.', 201);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////employee
+public function employeeLogin(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
+        if(auth()->guard('employee')->attempt(['email' => request('email'), 'password' => request('password')])){
+
+            config(['auth.guards.api.provider' => 'employee']);
+            $employee = Employee::select('employees.*')->find(auth()->guard('employee')->user()->id);
+            $success =  $employee;
+            $success['token'] =  $employee->createToken('MyApp',['employee'])->accessToken;
+
+            return response()->json($success, 200);
+        }else{
+            return response()->json(['error' => ['Email and Password are Wrong.']], 401);
+        }
+    }
+
+
+
+     public function employeelogout(Request $request)
+    {
+        Auth::guard('employee-api')->user()->token()->revoke();
+        // $token=$request->user()->token();
+        // $token->revoke();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 
 

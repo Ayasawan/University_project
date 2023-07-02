@@ -30,8 +30,8 @@ Route::prefix("complaints")->group(function (){
 //    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'update']);
 //    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'destroy']);
 });
-Route::post('register', [PassportAuthController::class, 'register'])->name('register');
-Route::post('login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
+Route::post('user/register', [PassportAuthController::class, 'register'])->name('register');
+Route::post('user/login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
 
 Route::post('Complaint', [\App\Http\Controllers\ComplaintController::class, 'store']);
 Route::get('Complaint', [\App\Http\Controllers\ComplaintController::class, 'index']);
