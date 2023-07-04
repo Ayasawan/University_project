@@ -1,5 +1,4 @@
 <?php
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PassportAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +23,11 @@ Route::group( ['prefix' => 'admin','middleware' => ['auth:admin-api','scopes:adm
 
     //route for products
 
-    Route::delete('products/{id}',[\App\Http\Controllers\ProductController::class,'destroy']);
+    // Route::delete('products/{id}',[\App\Http\Controllers\ProductController::class,'destroy']);
 
-    Route::get('products',[\App\Http\Controllers\ProductController::class,'index']);
+    // Route::get('products',[\App\Http\Controllers\ProductController::class,'index']);
 
-    Route::post('products',[\App\Http\Controllers\ProductController::class,'store']);
+    // Route::post('products',[\App\Http\Controllers\ProductController::class,'store']);
 
 
 
