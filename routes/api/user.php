@@ -24,19 +24,23 @@ Route::prefix("DetectingMark")->group(function (){
     Route::post('delete/{id}',[\App\Http\Controllers\DetectingMarkController::class,'destroy']);
 });
 
-Route::prefix("complaints")->group(function (){
-    Route::get('/',[\App\Http\Controllers\CommentController::class,'index']);
-    Route::post('/',[\App\Http\Controllers\CommentController::class,'store']);
-//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'update']);
-//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'destroy']);
+Route::prefix("RePractical")->group(function (){
+    Route::get('/',[\App\Http\Controllers\RePracticalController::class,'index']);
+    Route::get('/{id}',[\App\Http\Controllers\RePracticalController::class,'index']);
+
+    Route::post('/',[\App\Http\Controllers\RePracticalController::class,'store']);
+    Route::post('update/{id}',[\App\Http\Controllers\RePracticalController::class,'update']);
+    Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
 });
+
 Route::post('user/register', [PassportAuthController::class, 'register'])->name('register');
 Route::post('user/login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
 
 Route::post('Complaint', [\App\Http\Controllers\ComplaintController::class, 'store']);
 Route::get('Complaint', [\App\Http\Controllers\ComplaintController::class, 'index']);
 Route::get('Complaint/{id}', [\App\Http\Controllers\ComplaintController::class, 'show']);
-
+    Route::post('Complaint/update/{id}',[\App\Http\Controllers\ComplaintController::class,'update']);
+  Route::post('Complaint/delete/{id}',[\App\Http\Controllers\ComplaintController::class,'destroy']);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -58,3 +62,9 @@ Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user']
 
 
 
+Route::prefix("comments")->group(function (){
+    Route::get('/',[\App\Http\Controllers\CommentController::class,'index']);
+    Route::post('/',[\App\Http\Controllers\CommentController::class,'store']);
+//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'update']);
+//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'destroy']);
+});
