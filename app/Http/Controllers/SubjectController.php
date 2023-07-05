@@ -7,58 +7,71 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function index()
     {
-        //
+        $Subject = SubjectResource::collection(Subject::get());
+        return $this->apiResponse($Subject, 'ok', 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $input=$request->all();
+        $validator = Validator::make( $input, [
+            'subject_name' => 'required',
+            'semester' => 'required',
+            'year' => 'required',
+            'specialization' => 'required',
+            'doctor_id' =>$request->doctor_id,
+
+        ]);
+        if ($validator->fails()) {
+            return $this->apiResponse(null, $validator->errors(), 400);
+        }
+        $Subject =Subject::create($request->all());
+
+        if ($Subject) {
+            return $this->apiResponse(new SubjectResource($Subject), 'the Subject  save', 201);
+        }
+        return $this->apiResponse(null, 'the Subject  not save', 400);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(Subject $subject)
     {
-        //
+        $Subject= Subject::find($id);
+        if($Subject){
+            return $this->apiResponse(new SubjectResource($Subject) , 'ok' ,200);
+        }
+        return $this->apiResponse(null ,'the Subject not found' ,404);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, Subject $subject)
     {
-        //
+        $Subject= Subject::find($id);
+        if(!$Subject)
+        {
+            return $this->apiResponse(null ,'the Subject not found ',404);
+        }
+        $Subject->update($request->all());
+        if($Subject)
+        {
+            return $this->apiResponse(new SubjectResource($Subject) , 'the Subject update',201);
+
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Subject $subject)
     {
-        //
+        $Subject = Subject::find($id);
+        if(!$Subject)
+        {
+            return $this->apiResponse(null ,'the Subject not found ',404);
+        }
+        $Subject->delete($id);
+        if($Subject)
+            return $this->apiResponse(null ,'the Subject delete ',200);
     }
 }

@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('lectures', function (Blueprint $table) {
             $table->id();
+            $table->string('lecture_name');
+            $table->Text('pdf');
+            $table->string('type');
+            $table->string('subject_id');
             $table->timestamps();
         });
     }

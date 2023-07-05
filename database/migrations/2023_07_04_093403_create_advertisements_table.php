@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('advertisements', function (Blueprint $table) {
             $table->id();
+            $table->text('content');
+            $table->string('employee_id');
+            $table->string('doctor_id');
             $table->timestamps();
         });
     }

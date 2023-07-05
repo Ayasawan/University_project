@@ -7,58 +7,71 @@ use Illuminate\Http\Request;
 
 class LectureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
-        //
+        $Lecture = LectureResource::collection(Lecture::get());
+        return $this->apiResponse($Lecture, 'ok', 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
-        //
+        $input=$request->all();
+        $validator = Validator::make( $input, [
+            'lecture_name' => 'required',
+            'pdf' => 'required',
+            'type' => 'required',
+            'subject_id' =>$request->subject_id,
+
+        ]);
+        if ($validator->fails()) {
+            return $this->apiResponse(null, $validator->errors(), 400);
+        }
+        $Lecture =Lecture::create($request->all());
+
+        if ($Lecture) {
+            return $this->apiResponse(new LectureResource($Lecture), 'the Lecture  save', 201);
+        }
+        return $this->apiResponse(null, 'the Lecture  not save', 400);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Lecture  $lecture
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show(Lecture $lecture)
     {
-        //
+        $Lecture= Lecture::find($id);
+        if($Lecture){
+            return $this->apiResponse(new LectureResource($Lecture) , 'ok' ,200);
+        }
+        return $this->apiResponse(null ,'the Lecture not found' ,404);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lecture  $lecture
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Lecture $lecture)
     {
-        //
+        $Lecture= Lecture::find($id);
+        if(!$Lecture)
+        {
+            return $this->apiResponse(null ,'the Lecture not found ',404);
+        }
+        $Lecture->update($request->all());
+        if($Lecture)
+        {
+            return $this->apiResponse(new LectureResource($Lecture) , 'the Lecture update',201);
+
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Lecture  $lecture
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function destroy(Lecture $lecture)
     {
-        //
+        $Lecture = Lecture::find($id);
+        if(!$Lecture)
+        {
+            return $this->apiResponse(null ,'the Lecture not found ',404);
+        }
+        $Lecture->delete($id);
+        if($Lecture)
+            return $this->apiResponse(null ,'the Lecture delete ',200);
     }
 }

@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->string('subject_name');
+            $table->string('semester');
+            $table->string('year');
+            $table->string('specialization');
+            $table->string('doctor_id');
             $table->timestamps();
         });
     }
