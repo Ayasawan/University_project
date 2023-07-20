@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class DetectingMark extends Model
 {
     use HasFactory;
-    protected $fillable = ['FirstName','FatherName','LastName','BirthPlace','MatherName'];
-
+    protected $fillable = [
+        'FirstName',
+        'FatherName',
+        'LastName',
+        'BirthPlace',
+        'MatherName',
+        'user_id',
+    ];
 }

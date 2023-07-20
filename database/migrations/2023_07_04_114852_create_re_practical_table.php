@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('year');
             $table->string('subject_name');
 //            $table->integer('employee_id');
-//            $table->integer('student_id');
+              $table->integer('user_id');
             $table->timestamps();
         });
     }

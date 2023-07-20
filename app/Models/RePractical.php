@@ -14,7 +14,6 @@ class RePractical extends Model
         'semester',
         'year',
         'subject_name',
-//        'employee_id',
-//        'student_id',
+       'user_id',
     ];
 }
