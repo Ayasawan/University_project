@@ -67,4 +67,48 @@ class EmployeeController extends Controller
         }
         return $this->apiResponse(null, 'This student not save', 400);
     }
+
+
+
+    public function updateUser(Request $request,  $id)
+    {
+
+       // dd($id);
+        $user= User::find($id);
+        if(!$user)
+        {
+            return $this->apiResponse(null ,'this student not found ',404);
+        }
+        $user->update($request->all());
+        if($user)
+        {
+            return $this->apiResponse(new UserResource($user) , 'the student updated',201);
+
+        }
+    }
+
+
+
+    public function showUser($id)
+    {
+        $user= User::find($id);
+        if($user){
+            return $this->apiResponse(new UserResource($user) , 'ok' ,200);
+        }
+        return $this->apiResponse(null ,'the user not found' ,404);
+
+    }
+
+
+    public function destroyUser( $id)
+    {
+        $user = User::find($id);
+        if(!$user)
+        {
+            return $this->apiResponse(null ,'the user not found ',404);
+        }
+        $user->delete($id);
+        if($user)
+            return $this->apiResponse(null ,'the user delete ',200);
+    }
 }

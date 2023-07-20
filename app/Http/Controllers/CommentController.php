@@ -11,67 +11,76 @@ use Illuminate\Support\Facades\Validator;
 class CommentController extends Controller
 {
     use ApiResponseTrait;
-    public function index( )
+
+    public function index(Request $request, $id)
     {
-        $comments = CommentResource::collection(Comment::get());
+        $complaint = Complaint::find($id);
+        $comments = $complaint->comments;
         return response()->json($comments);
     }
-        public function store(Request $request)
-    {
 
-                $input=$request->all();
-        $request->validate([
-            "value" => ['required', 'string','min:1', 'max:400'],
-            "complaint_id"=>'required',
+    public function store(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'value' => ['required', 'string', 'min:1', 'max:400']
         ]);
-        $comment = Comment::query()->create([
+        if ($validator->fails()) {
+            return $this->apiResponse(null, $validator->errors(), 400);
+        }
+
+        $complaint = Complaint::find($id);
+        if (!$complaint) {
+            return $this->apiResponse(null, 'this complaint not found', 404);
+        }
+        $comment = $complaint->comments()->create([
             'value' => $request->value,
-            'complaint_id' =>$request->complaint_id,
+            'complaint_id' => $id,
+            'user_id' => Auth::id(),
         ]);
         return response()->json($comment);
     }
 
-//    public function store(Request $request, Complaint $Complaint)
-//    {
-//        $request->validate([
-//            "value" => ['required', 'string','min:1', 'max:400'],
-//        ]);
-//        $comment = $Complaint->comments()->create([
-//            'value' => $request->value,
-//
-//        ]);
-//        return response()->json($comment);
-//    }
-//    public function update(Request $request, $id ,$id_comment)
-//    {
-//        $validator=Validator::make($request->all(),[
-//            'value'  => [ 'required' ,'string' ,'min:1' ]
-//        ]);
-//        if($validator->fails()) {
-//            return $this->apiResponse(null ,$validator->errors(),400);}
-//        $Complaint= Complaint ::find($id);
-//        if(!$Complaint) {
-//            return $this->apiResponse(null ,'the   Product not found ',404);
-//        }
-//        $comment=Comment::find($id_comment);
-//        if(!$comment)
-//        {
-//            return $this->apiResponse(null ,'the  comment not found ',404);
-//        }
-//        $comment->update($request->all());
-//        return $this->apiResponse(new CommentResource($comment) , 'the comment update',201);
-//
-//    }
-//    public function destroy($id)
-//    {
-//        $comment = Comment::find($id);
-//
-//        if (!$comment) {
-//            return $this->apiResponse(null, 'the comment not found ', 404);
-//
-//        }
-//        $comment->delete($id);
-//        if ($comment)
-//            return $this->apiResponse(null, 'the comment delete ', 200);
-//    }
+
+ // update one comment of one product
+    public function update(Request $request, $id, $id2)
+    {
+        $validator = Validator::make($request->all(), [
+            'value' => ['required', 'string', 'min:1', 'max:400']
+        ]);
+        if ($validator->fails()) {
+            return $this->apiResponse(null, $validator->errors(), 400);
+        }
+
+        $complaint = Complaint::find($id);
+        if (!$complaint) {
+            return $this->apiResponse(null, 'this complaint not found', 404);
+        }
+        $comment = Comment::find($id2);
+        $comment->update([
+            'value' => $request->value,
+            'complaint_id' => $id,
+            'user_id' => Auth::id(),
+        ]);
+       
+        return $this->apiResponse($comment, 'updated successfully', 201);
+    }
+
+
+
+ //  delete one comment
+    public function destroy($id, $id2)
+    {
+        $complaint = Complaint::find($id);
+        if (!$complaint) {
+            return $this->apiResponse(null, 'this complaint not found', 404);
+        }
+        $comment = Comment::find($id2);
+        if (!$comment) {
+            return $this->apiResponse(null, 'This Comment not found', 404);
+        }
+        $comment->delete($id2);
+        if ($comment) {
+            return $this->apiResponse(null, 'This Comment deleted', 200);
+        }
+    }
 }

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\PassportAuthController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ComplaintController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix("DetectingMark")->group(function (){
     Route::get('/',[\App\Http\Controllers\DetectingMarkController::class,'index']);
-    Route::get('/{id}',[\App\Http\Controllers\DetectingMarkController::class,'index']);
+    Route::get('/{id}',[\App\Http\Controllers\DetectingMarkController::class,'show']);
 
     Route::post('/',[\App\Http\Controllers\DetectingMarkController::class,'store']);
     Route::post('update/{id}',[\App\Http\Controllers\DetectingMarkController::class,'update']);
@@ -30,8 +33,7 @@ Route::prefix("complaints")->group(function (){
 //    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'update']);
 //    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'destroy']);
 });
-Route::post('user/register', [PassportAuthController::class, 'register'])->name('register');
-Route::post('user/login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
+
 
 Route::post('Complaint', [\App\Http\Controllers\ComplaintController::class, 'store']);
 Route::get('Complaint', [\App\Http\Controllers\ComplaintController::class, 'index']);
@@ -42,6 +44,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
+
+
+Route::post('user/register', [PassportAuthController::class, 'register'])->name('register');
+Route::post('user/login', [PassportAuthController::class, 'userLogin'])->name('userLogin');
+
 Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
     Route::get('logout',[PassportAuthController::class,'logout'])->name('Logout');
     Route::get('userInfo',[PassportAuthController::class,'userInfo'])->name('userInfo');
@@ -50,11 +59,35 @@ Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user']
     Route::post('change/{id}',[\App\Http\Controllers\PassportAuthController::class,'change_password']);
 
 
+///complaints
+Route::prefix("complaints")->group(function (){
+    Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
+    Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
+    Route::post('/',[\App\Http\Controllers\ComplaintController::class,'store']);
+    Route::post('update/{id}',[\App\Http\Controllers\ComplaintController::class,'update']);
+    Route::post('delete/{id}',[\App\Http\Controllers\ComplaintController::class,'destroy']);
+
+    //comment complaints
+    Route::prefix("/{id}/comments")->group(function (){
+        Route::get('/', [CommentController::class, 'index']);
+        Route::post('/', [CommentController::class, 'store']);
+        Route::post('/update/{comment}', [CommentController::class, 'update']);
+        Route::post('/{comment}', [CommentController::class, 'destroy']);
+    });
+
+
+    // likes  complaints routes
+    Route::prefix("/{id}/likes")->group(function (){
+        Route::get('/', [LikeController::class, 'index']);
+        Route::post('/', [LikeController::class, 'store']);
+});
+
+
 
 
 
 });
 
 
-
+});
 

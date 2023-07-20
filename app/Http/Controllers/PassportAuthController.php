@@ -21,7 +21,7 @@ class PassportAuthController extends Controller
 {
 
     use  ApiResponseTrait;
-
+    
     public function index()
     {
         $user = UserResource::collection(User::get());

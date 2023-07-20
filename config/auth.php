@@ -90,8 +90,6 @@ return [
             'driver' => 'passport',
             'provider' => 'admins',
         ],
-<<<<<<< HEAD
-=======
         'employee' => [
             'driver' => 'session',
             'provider' => 'employees',
@@ -101,7 +99,6 @@ return [
             'driver' => 'passport',
             'provider' => 'employees',
         ],
->>>>>>> 6eb236a (emplo2)
     ],
 
 
@@ -151,14 +148,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-<<<<<<< HEAD
-=======
 
         'employees' => [
             'driver' => 'eloquent',
             'model' => App\Models\Employee::class,
         ],
->>>>>>> 6eb236a (emplo2)
     ],
 
     /*

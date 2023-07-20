@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\MyMarksController;
+use App\Http\Controllers\MarkController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,5 +36,40 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
 
     Route::get('logout',[PassportAuthController::class,'employeelogout'])->name('employeeLogout');
     Route::post('addUser',[EmployeeController::class,'AddUser'])->name('AddUser');
+    Route::post('updateUser/{id}',[EmployeeController::class,'updateUser'])->name('updateUser');
+    Route::get('showUser/{id}',[EmployeeController::class,'showUser'])->name('showUser');
+    Route::post('destroyUser/{id}',[EmployeeController::class,'destroyUser'])->name('destroyUser');
+   // Route::get('Complaint/{id}', [\App\Http\Controllers\ComplaintController::class, 'show']);
 
-}); 
+
+   Route::prefix("MyMarks")->group(function (){
+    Route::get('/',[\App\Http\Controllers\MyMarksController::class,'index']);
+    Route::get('indexFor1User/{id}',[\App\Http\Controllers\MyMarksController::class,'indexFor1User']);
+    Route::get('/{id}',[\App\Http\Controllers\MyMarksController::class,'show']);
+    Route::post('all' ,[\App\Http\Controllers\MyMarksController::class,'storeAll']);
+    Route::post('/',[\App\Http\Controllers\MyMarksController::class,'store']);
+    Route::post('update/{id}',[\App\Http\Controllers\MyMarksController::class,'update']);
+    Route::post('delete/{id}',[\App\Http\Controllers\MyMarksController::class,'destroy']);
+    });
+
+
+    Route::prefix("schedules")->group(function (){
+        Route::get('/',[\App\Http\Controllers\ScheduleController::class,'index']);
+        Route::get('/{id}',[\App\Http\Controllers\ScheduleController::class,'show']);
+        Route::post('/',[\App\Http\Controllers\ScheduleController::class,'store']);
+      //  Route::post('update/{id}',[\App\Http\Controllers\ScheduleController::class,'update']);
+        Route::post('delete/{id}',[\App\Http\Controllers\ScheduleController::class,'destroy']);
+
+
+    });
+
+    Route::prefix("marks")->group(function (){
+        Route::get('/',[\App\Http\Controllers\MarkController::class,'index']);
+        Route::get('/{id}',[\App\Http\Controllers\MarkController::class,'show']);
+        Route::post('/',[\App\Http\Controllers\MarkController::class,'store']);
+      //  Route::post('update/{id}',[\App\Http\Controllers\MarkController::class,'update']);
+        Route::post('delete/{id}',[\App\Http\Controllers\MarkController::class,'destroy']);
+
+
+});
+ });

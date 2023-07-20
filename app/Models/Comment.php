@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+    protected $table = "comments";
     protected $fillable = [
         'value' ,
         'complaint_id',
+        'user_id'
     ];
+    protected $primaryKey = "id";
     public $timestamps = true ;
 
 
@@ -20,9 +23,11 @@ class Comment extends Model
         return $this->belongsTo(Complaint::class,'complaint_id');
     }
 
+   
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');}
+
+
+
 }
-//    public function user(){
-//        return $this->belongsTo( User::class,'owner_id');
-//    }
-//        'complaint_id' ,
-//        'user_id' ,

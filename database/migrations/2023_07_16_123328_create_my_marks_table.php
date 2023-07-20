@@ -6,14 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('my_marks', function (Blueprint $table) {
             $table->id();
-            $table->text('value');
-            $table->unsignedBigInteger('complaint_id');
-            $table->foreign('complaint_id')->references('id')->on('complaints')->onDelete('cascade');
+            $table->string('nameMark');
+            $table->string('markNum');
+            $table->enum('year', ['first', 'second', 'third','fourth','fifth','null']);
+            $table->enum('semester', ['first', 'second', 'third','null']);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('my_marks');
     }
 };

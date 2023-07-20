@@ -8,19 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Complaint extends Model
 {
     use HasFactory;
+    protected $table = "complaints";
 
+    protected $fillable = ['content','user_id'];
 
-    protected $fillable = ['content'];
+    protected $primaryKey = "id";
+    public $timestamps = true ;
 
     public function comments(){
         return $this->hasMany( Comment::class,'complaint_id');
     }
+
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class,'complaint_id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 }
 
-//    protected $fillable = ['user_id', 'content'];
-
-//    public function user()
-//    {
-//        return $this->belongsTo(User::class);
-//    }
 

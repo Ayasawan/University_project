@@ -33,7 +33,7 @@ class UserResource extends JsonResource
             "NationalNumber" => $this->NationalNumber,
             "email"=>$this->email,
             "password"=>$this->password,
-           // "products  of user"=>$this->products()->get(),
+            "Marks  "=>$this->MyMarks()->get(),
         ];
 
 

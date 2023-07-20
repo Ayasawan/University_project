@@ -18,8 +18,8 @@ class User extends Authenticatable
         'BirthPlace','Gender' ,'Location','Phone', 'ExamNumber' ,'Average','NationalNumber', 'email' ,
         'password'
     ];
-    public function products(){
-        return $this->hasMany(Product::class,'user_id');
+    public function MyMarks(){
+        return $this->hasMany(MyMarks::class,'user_id');
     }
 
     protected $hidden = [
