@@ -13,11 +13,10 @@ return new class extends Migration
             $table->id();
             $table->string('FatherName');
             $table->string('MatherName');
-            $table->string('BirthPlace');
             $table->string('FirstName');
             $table->string('LastName');
-//            $table->string('EmployeeId');
-//            $table->string('StudentId');
+            $table->string('BirthPlace');
+            $table->string('user_id');
             $table->timestamps();
         });
     }

@@ -19,23 +19,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::prefix("DetectingMark")->group(function (){
-    Route::get('/',[\App\Http\Controllers\DetectingMarkController::class,'index']);
-    Route::get('/{id}',[\App\Http\Controllers\DetectingMarkController::class,'show']);
-
-    Route::post('/',[\App\Http\Controllers\DetectingMarkController::class,'store']);
-    Route::post('update/{id}',[\App\Http\Controllers\DetectingMarkController::class,'update']);
-    Route::post('delete/{id}',[\App\Http\Controllers\DetectingMarkController::class,'destroy']);
-});
-
-Route::prefix("RePractical")->group(function (){
-    Route::get('/',[\App\Http\Controllers\RePracticalController::class,'index']);
-    Route::get('/{id}',[\App\Http\Controllers\RePracticalController::class,'index']);
-
-    Route::post('/',[\App\Http\Controllers\RePracticalController::class,'store']);
-    Route::post('update/{id}',[\App\Http\Controllers\RePracticalController::class,'update']);
-    Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
-});
 
 
 Route::post('Complaint', [\App\Http\Controllers\ComplaintController::class, 'store']);
@@ -44,8 +27,24 @@ Route::get('Complaint/{id}', [\App\Http\Controllers\ComplaintController::class, 
     Route::post('Complaint/update/{id}',[\App\Http\Controllers\ComplaintController::class,'update']);
   Route::post('Complaint/delete/{id}',[\App\Http\Controllers\ComplaintController::class,'destroy']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group( ['prefix' => 'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
+
+    Route::prefix("DetectingMark")->group(function (){
+        Route::get('/',[\App\Http\Controllers\DetectingMarkController::class,'index']);
+        Route::get('/{id}',[\App\Http\Controllers\DetectingMarkController::class,'show']);
+        Route::post('/',[\App\Http\Controllers\DetectingMarkController::class,'store']);
+        Route::post('update/{id}',[\App\Http\Controllers\DetectingMarkController::class,'update']);
+        Route::post('delete/{id}',[\App\Http\Controllers\DetectingMarkController::class,'destroy']);
+    });
+
+    Route::prefix("RePractical")->group(function (){
+        Route::get('/',[\App\Http\Controllers\RePracticalController::class,'index']);
+        Route::get('/{id}',[\App\Http\Controllers\RePracticalController::class,'index']);
+
+        Route::post('/',[\App\Http\Controllers\RePracticalController::class,'store']);
+        Route::post('update/{id}',[\App\Http\Controllers\RePracticalController::class,'update']);
+        Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
+    });
 });
 
 

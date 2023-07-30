@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\RePracticalResource;
 use App\Models\RePractical;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class RePracticalController extends Controller
@@ -31,7 +32,12 @@ class RePracticalController extends Controller
         if ($validator->fails()) {
             return $this->apiResponse(null, $validator->errors(), 400);
         }
-        $RePractical =RePractical::create($request->all());
+        $RePractical =RePractical::create([
+            'semester' => $request->semester,
+            'year' => $request->year,
+            'subject_name' => $request->subject_name,
+            'user_id' => Auth::id(),
+            ]);
 
         if ($RePractical) {
             return $this->apiResponse(new RePracticalResource($RePractical), 'the RePractical  save', 201);

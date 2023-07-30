@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DetectingMarkResource;
 use App\Models\DetectingMark;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class DetectingMarkController extends Controller
@@ -21,17 +22,26 @@ class DetectingMarkController extends Controller
     {
         $input=$request->all();
         $validator = Validator::make( $input, [
-            'FirstName' => 'required',
-            'LastName' => 'required',
-            'BirthPlace' => 'required',
             'MatherName' => 'required',
             'FatherName'=> 'required',
+            'BirthPlace' => 'required',
+            'FirstName' => 'required',
+            'LastName' => 'required',
+
 
         ]);
         if ($validator->fails()) {
             return $this->apiResponse(null, $validator->errors(), 400);
         }
-        $DetectingMark =DetectingMark::create($request->all());
+
+        $DetectingMark =DetectingMark::create([
+            'FatherName' => $request->FatherName,
+            'MatherName' => $request->MatherName,
+            'BirthPlace' => $request->BirthPlace,
+            'FirstName' => $request->FirstName,
+            'LastName' => $request->LastName,
+            'user_id' => Auth::id(),
+        ]);
 
         if ($DetectingMark) {
             return $this->apiResponse(new DetectingMarkResource($DetectingMark), 'the DetectingMark  save', 201);
