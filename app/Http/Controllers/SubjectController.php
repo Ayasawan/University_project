@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Http\Resources\SubjectResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SubjectController extends Controller
 {
-   
+    use  ApiResponseTrait;
     public function index()
     {
         $Subject = SubjectResource::collection(Subject::get());
@@ -22,7 +24,7 @@ class SubjectController extends Controller
             'semester' => 'required',
             'year' => 'required',
             'specialization' => 'required',
-            'doctor_id' =>$request->doctor_id,
+            'doctor_id' =>'required',
 
         ]);
         if ($validator->fails()) {
@@ -37,7 +39,7 @@ class SubjectController extends Controller
     }
 
     
-    public function show(Subject $subject)
+    public function show($id)
     {
         $Subject= Subject::find($id);
         if($Subject){
@@ -47,7 +49,7 @@ class SubjectController extends Controller
     }
 
     
-    public function update(Request $request, Subject $subject)
+    public function update(Request $request,$id)
     {
         $Subject= Subject::find($id);
         if(!$Subject)
@@ -63,7 +65,7 @@ class SubjectController extends Controller
     }
 
 
-    public function destroy(Subject $subject)
+    public function destroy($id)
     {
         $Subject = Subject::find($id);
         if(!$Subject)

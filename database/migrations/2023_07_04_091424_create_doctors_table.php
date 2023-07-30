@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('gender');
-            $table->string('subject');
+            $table->text('info');
             $table->text('working_time')->nullable();
+            $table->string('NationalNumber')->unique()->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamps();

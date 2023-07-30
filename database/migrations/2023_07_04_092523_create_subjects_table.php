@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('semester');
             $table->string('year');
             $table->string('specialization');
-            $table->string('doctor_id');
+            $table->unsignedBigInteger('doctor_id');
+            $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
             $table->timestamps();
         });
     }

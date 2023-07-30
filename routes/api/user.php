@@ -3,6 +3,7 @@
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ComplaintController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,9 @@ Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user']
     Route::post('change/{id}',[\App\Http\Controllers\PassportAuthController::class,'change_password']);
 
 
+  
+
+
 ///complaints
 Route::prefix("complaints")->group(function (){
     Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
@@ -83,20 +87,11 @@ Route::prefix("complaints")->group(function (){
     Route::prefix("/{id}/likes")->group(function (){
         Route::get('/', [LikeController::class, 'index']);
         Route::post('/', [LikeController::class, 'store']);
-});
+    });
 
 
-
-
-
-});
+    });
 
 
 });
 
-Route::prefix("comments")->group(function (){
-    Route::get('/',[\App\Http\Controllers\CommentController::class,'index']);
-    Route::post('/',[\App\Http\Controllers\CommentController::class,'store']);
-//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'update']);
-//    Route::post('/{comments}',[\App\Http\Controllers\CommentController::class,'destroy']);
-});

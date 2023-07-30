@@ -81,15 +81,21 @@ return [
             'provider' => 'users',
         ],
 
-        'admin' => [
+
+
+
+        'doctor' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'doctors',
         ],
 
-        'admin-api' => [
+        'doctor-api' => [
             'driver' => 'passport',
-            'provider' => 'admins',
+            'provider' => 'doctors',
         ],
+
+
+
         'employee' => [
             'driver' => 'session',
             'provider' => 'employees',
@@ -145,9 +151,9 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'admins' => [
+        'doctors' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => App\Models\Doctor::class,
         ],
 
         'employees' => [

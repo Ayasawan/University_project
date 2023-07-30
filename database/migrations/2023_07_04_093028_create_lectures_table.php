@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('lecture_name');
             $table->Text('pdf');
             $table->string('type');
-            $table->string('subject_id');
+            $table->unsignedBigInteger('subject_id');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
             $table->timestamps();
         });
     }

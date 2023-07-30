@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
 use App\Http\Resources\MarkResource;
 use App\Models\Mark;
 use Illuminate\Http\Request;
@@ -83,6 +84,41 @@ class MarkController extends Controller
             return $this->apiResponse(null ,'the file of marks deleted ',200);
     }
 
+   
+
+        // public function downloadPDF($id)
+        // {
+        //     $mark = Mark::find($id);
+        //     if (!$mark) {
+        //         abort(404);
+        //     }
+        //     $pdfData = $mark->PDF; // assumes that the PDF data is stored in a 'pdf_data' column in the 'marks' table
+        //     if (!$pdfData) {
+        //         abort(404);
+        //     }
+        //     $headers = [
+        //         'Content-Type' => 'application/pdf',
+        //         'Content-Disposition' => 'attachment; filename="' . $mark->PDF . '"',
+        //     ];
+        //     return response()->download($pdfData, $mark->PDF, $headers);
+        // }
+
+        public function downloadPDF($id)
+        {
+            $mark = Mark::find($id);
+            if (!$mark) {
+                abort(404);
+            }
+            $pdfPath = public_path('PDF/Mark/' . $mark->PDF); // assumes that the PDF files are stored in the public/PDF/Mark directory
+            if (!file_exists($pdfPath)) {
+                abort(404);
+            }
+            $headers = [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="' . $mark->PDF . '"',
+            ];
+            return response()->download($pdfPath, $mark->PDF, $headers);
+        }
 
 }
 

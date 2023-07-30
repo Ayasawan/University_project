@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,7 +24,7 @@ class Subject extends Model
 
     public function lectures()
     {
-        return $this->hasMany(Lecture::class,'Employee_id');
+        return $this->hasMany(Lecture::class,'subject_id');
     }
 
 
