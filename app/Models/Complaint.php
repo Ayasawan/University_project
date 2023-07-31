@@ -10,7 +10,7 @@ class Complaint extends Model
     use HasFactory;
     protected $table = "complaints";
 
-    protected $fillable = ['content','user_id'];
+    protected $fillable = ['content','user_id','title',];
 
     protected $primaryKey = "id";
     public $timestamps = true ;

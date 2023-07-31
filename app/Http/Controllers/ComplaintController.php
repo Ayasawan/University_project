@@ -23,6 +23,7 @@ class ComplaintController extends Controller
         $input=$request->all();
         $validator = Validator::make( $input, [
             'content' => 'required',
+            'title' => 'required',
 
         ]);
         if ($validator->fails()) {
@@ -30,6 +31,7 @@ class ComplaintController extends Controller
         }
         $Complaint = Complaint::query()->create([
             'content' => $request->content,
+            'title' => $request->title,
             'user_id' => auth()->id(),
         ]);
 
