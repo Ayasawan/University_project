@@ -90,6 +90,16 @@ Route::prefix("complaints")->group(function (){
         Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
     });
 
+   
+    
+    
+ ///objection
+ Route::prefix("objection")->group(function (){
+    Route::get('/',[\App\Http\Controllers\ObjectionController::class,'indexfor1User']);
+    Route::post('/',[\App\Http\Controllers\ObjectionController::class,'store']);
+    Route::post('update/{id}',[\App\Http\Controllers\ObjectionController::class,'update_user']);
+    Route::post('delete/{id}',[\App\Http\Controllers\ObjectionController::class,'destroy_user']);
+});
 
 });
 

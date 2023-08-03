@@ -22,6 +22,10 @@ class User extends Authenticatable
         return $this->hasMany(MyMarks::class,'user_id');
     }
 
+    public function Objections(){
+        return $this->hasMany(Objection::class,'user_id');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',

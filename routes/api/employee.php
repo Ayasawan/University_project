@@ -103,5 +103,13 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
         Route::post('delete/{id}',[\App\Http\Controllers\MarkController::class,'destroy']);
 
 
+     });
+     ///objection
+ Route::prefix("objection")->group(function (){
+  Route::get('/',[\App\Http\Controllers\ObjectionController::class,'index']);
+  Route::get('/{id}',[\App\Http\Controllers\ObjectionController::class,'show']);
+  Route::post('update/{id}',[\App\Http\Controllers\ObjectionController::class,'update']);
+  Route::post('delete/{id}',[\App\Http\Controllers\ObjectionController::class,'destroy']);
 });
+
  });
