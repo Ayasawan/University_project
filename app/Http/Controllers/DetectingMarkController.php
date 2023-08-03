@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Resources\DetectingMarkResource;
 use App\Models\DetectingMark;
 use Illuminate\Http\Request;
@@ -16,7 +15,6 @@ class DetectingMarkController extends Controller
         $DetectingMark = DetectingMarkResource::collection(DetectingMark::get());
         return $this->apiResponse($DetectingMark, 'ok', 200);
     }
-
 
     public function store(Request $request)
     {
@@ -59,7 +57,6 @@ class DetectingMarkController extends Controller
         return $this->apiResponse(null ,'the DetectingMark not found' ,404);
 
     }
-
 
     public function update(Request $request,  $id)
     {

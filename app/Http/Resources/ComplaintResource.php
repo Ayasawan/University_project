@@ -18,8 +18,10 @@ class ComplaintResource extends JsonResource
         return [
         "id"=>$this->id,
         "user_id"=>$this->user_id,
-        "content"=>$this->content,
-        "comments of complaint"=>$this->comments()->get(),
+         "title"=>$this->title,
+            "content"=>$this->content,
+
+            "comments of complaint"=>$this->comments()->get(),
         ];
             }
 }
