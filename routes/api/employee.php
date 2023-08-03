@@ -43,7 +43,7 @@ use App\Http\Controllers\MarkController;
 
 //shared
 // routes for all users and doctors and employees
-Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], function () { 
+Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], function () {
     Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->name('indexDoctor');
     Route::get('showDoctor/{id}', [EmployeeController::class, 'showDoctor'])->name('showDoctor');
 
@@ -52,14 +52,14 @@ Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], functi
     Route::prefix("complaints")->group(function (){
       Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
       Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
-    
+
       Route::prefix("/{id}/likes")->group(function (){
         Route::get('/', [LikeController::class, 'index']);});
 
         Route::prefix("/{id}/comments")->group(function (){
           Route::get('/', [CommentController::class, 'index']);});
-    
-    
+
+
     });
     });
 // Route::middleware('auth:api')->group(function () {
@@ -75,11 +75,13 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
     Route::get('logout',[PassportAuthController::class,'employeelogout'])->name('employeeLogout');
     //user
     Route::get('index',[EmployeeController::class,'index'])->name('index');
+    Route::get('show/{id}',[PassportAuthController::class,'show'])->name('show');
+
     Route::post('addUser',[EmployeeController::class,'AddUser'])->name('AddUser');
     Route::post('updateUser/{id}',[EmployeeController::class,'updateUser'])->name('updateUser');
     Route::get('showUser/{id}',[EmployeeController::class,'showUser'])->name('showUser');
     Route::post('destroyUser/{id}',[EmployeeController::class,'destroyUser'])->name('destroyUser');
-   
+
 //doctor
   // Route::get('indexDoctor',[EmployeeController::class,'indexDoctor'])->name('indexDoctor');
    Route::post('AddDoctor',[EmployeeController::class,'AddDoctor'])->name('AddDoctor');
@@ -138,6 +140,21 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
   Route::post('delete/{id}',[\App\Http\Controllers\ObjectionController::class,'destroy']);
 });
 
+          //DetectingMark
+    Route::prefix("DetectingMark")->group(function (){
+        Route::get('/',[\App\Http\Controllers\DetectingMarkController::class,'index']);
+        Route::get('/{id}',[\App\Http\Controllers\DetectingMarkController::class,'show']);
+        Route::post('update/{id}',[\App\Http\Controllers\DetectingMarkController::class,'update']);
+        Route::post('delete/{id}',[\App\Http\Controllers\DetectingMarkController::class,'destroy']);
+    });
+
+    //RePractical
+    Route::prefix("RePractical")->group(function (){
+        Route::get('/',[\App\Http\Controllers\RePracticalController::class,'index']);
+        Route::get('/{id}',[\App\Http\Controllers\RePracticalController::class,'show']);
+        Route::post('update/{id}',[\App\Http\Controllers\RePracticalController::class,'update']);
+        Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
+    });
 //Route::get('complaints/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
 
  });

@@ -25,7 +25,12 @@ class User extends Authenticatable
     public function Objections(){
         return $this->hasMany(Objection::class,'user_id');
     }
-
+    public function detecting_marks(){
+        return $this->hasMany(DetectingMark::class,'user_id');
+    }
+    public function re_practical(){
+        return $this->hasMany(RePractical::class,'user_id');
+    }
     public function Complaints(){
         return $this->hasMany(Complaint::class,'user_id');
     }
