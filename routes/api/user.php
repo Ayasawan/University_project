@@ -46,15 +46,15 @@ Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user']
 
 ///complaints
 Route::prefix("complaints")->group(function (){
-    Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
-    Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
+    //Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
+   // Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
     Route::post('/',[\App\Http\Controllers\ComplaintController::class,'store']);
     Route::post('update/{id}',[\App\Http\Controllers\ComplaintController::class,'update']);
     Route::post('delete/{id}',[\App\Http\Controllers\ComplaintController::class,'destroy']);
 
     //comment complaints
     Route::prefix("/{id}/comments")->group(function (){
-        Route::get('/', [CommentController::class, 'index']);
+      //  Route::get('/', [CommentController::class, 'index']);
         Route::post('/', [CommentController::class, 'store']);
         Route::post('/update/{comment}', [CommentController::class, 'update']);
         Route::post('/{comment}', [CommentController::class, 'destroy']);
@@ -63,8 +63,9 @@ Route::prefix("complaints")->group(function (){
 
     // likes  complaints routes
     Route::prefix("/{id}/likes")->group(function (){
-        Route::get('/', [LikeController::class, 'index']);
+      //  Route::get('/', [LikeController::class, 'index']);
         Route::post('/', [LikeController::class, 'store']);
+        Route::post('delete', [LikeController::class, 'dislike']);
     });
 
 

@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\MyMarksController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\MarkController;
@@ -27,20 +30,43 @@ use App\Http\Controllers\MarkController;
 
 
 
-// routes for all users and doctors and employees
+
 // Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api', 'scopes:doctor,user,employee']], function () {
 //       //doctor
 //       Route::get('indexDoctor',[EmployeeController::class,'indexDoctor'])->name('indexDoctor');
 //       Route::get('showDoctor/{id}',[EmployeeController::class,'showDoctor'])->name('showDoctor');
 // });
 
+
+
+
+
+//shared
+// routes for all users and doctors and employees
 Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], function () { 
     Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->name('indexDoctor');
     Route::get('showDoctor/{id}', [EmployeeController::class, 'showDoctor'])->name('showDoctor');
-});
+
+
+        ///complaints
+    Route::prefix("complaints")->group(function (){
+      Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
+      Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
+    
+      Route::prefix("/{id}/likes")->group(function (){
+        Route::get('/', [LikeController::class, 'index']);});
+
+        Route::prefix("/{id}/comments")->group(function (){
+          Route::get('/', [CommentController::class, 'index']);});
+    
+    
+    });
+    });
 // Route::middleware('auth:api')->group(function () {
 //   Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->middleware('scope:employee,doctor,user');
 // });
+
+
 
 Route::post('employee/login',[\App\Http\Controllers\PassportAuthController::class,'employeeLogin'])->name('employeeLogin');
 
@@ -111,5 +137,7 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
   Route::post('update/{id}',[\App\Http\Controllers\ObjectionController::class,'update']);
   Route::post('delete/{id}',[\App\Http\Controllers\ObjectionController::class,'destroy']);
 });
+
+//Route::get('complaints/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
 
  });

@@ -26,6 +26,10 @@ class User extends Authenticatable
         return $this->hasMany(Objection::class,'user_id');
     }
 
+    public function Complaints(){
+        return $this->hasMany(Complaint::class,'user_id');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',

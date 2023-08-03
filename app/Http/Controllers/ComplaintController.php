@@ -18,26 +18,32 @@ class ComplaintController extends Controller
         return $this->apiResponse($Complaint, 'ok', 200);
     }
 
+    public function indexfor1User()
+    {
+        $user = Auth::user(); // Get the authenticated user
+        $Complaint = $user->Complaints;
+        return $this->apiResponse($Complaint, 'ok', 200);
+      
+    }
+
     public function store(Request $request)
     {
         $input=$request->all();
         $validator = Validator::make( $input, [
-            'content' => 'required',
             'title' => 'required',
-
+            'content' => 'required',
+        
         ]);
         if ($validator->fails()) {
             return $this->apiResponse(null, $validator->errors(), 400);
         }
         $Complaint = Complaint::query()->create([
-            'content' => $request->content,
             'title' => $request->title,
-            'user_id' => auth()->id(),
+            'content' => $request->content,
+            'user_id' => Auth::id(),
         ]);
 
-        // $user =Auth::user();
-        // $input['user_id']=$user->id;
-        // $Complaint =Complaint::create($input);
+
 
         if ($Complaint) {
             return $this->apiResponse(new ComplaintResource($Complaint), 'the Complaint  save', 201);
@@ -75,7 +81,7 @@ class ComplaintController extends Controller
     }
 
 
-   public function destroy( $id)
+   public function destroy_user( $id)
     {
         $complaint =  Complaint::find($id);
 
@@ -86,6 +92,19 @@ class ComplaintController extends Controller
             return $this->apiResponse(null, 'you do not have rights', 400);
 
         }
+        $complaint->delete($id);
+            return $this->apiResponse(null, 'This complaint deleted', 200);
+
+    }
+
+    public function destroy( $id)
+    {
+        $complaint =  Complaint::find($id);
+
+        if(!$complaint){
+            return $this->apiResponse(null, 'This Complaint not found', 404);
+        }
+    
         $complaint->delete($id);
             return $this->apiResponse(null, 'This complaint deleted', 200);
 
