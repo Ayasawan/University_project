@@ -138,6 +138,9 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
   Route::post('delete/{id}',[\App\Http\Controllers\ObjectionController::class,'destroy']);
 });
 
-//Route::get('complaints/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
+
+//complaints
+Route::post('complaints/delete/{id}',[\App\Http\Controllers\ComplaintController::class,'destroy']);
+
 
  });
