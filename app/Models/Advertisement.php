@@ -29,7 +29,4 @@ class Advertisement extends Model
         return $this->belongsTo(Employee::class,'Employee_id');
     }
 
-    public function doctor(){
-        return $this->belongsTo(Doctor::class,'doctor_id');
-    }
 }

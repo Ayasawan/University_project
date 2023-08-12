@@ -50,9 +50,4 @@ class Doctor extends Authenticatable
     return false;
 }
 
-    public function advertisements()
-    {
-        return $this->hasMany(dvertisement::class,'doctor_id');
-    }
-
 }

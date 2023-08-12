@@ -36,4 +36,11 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(schedule::class,'Employee_id');
     }
+
+    
+    public function advertisements()
+    {
+        return $this->hasMany(advertisement::class,'Employee_id');
+    }
+
 }

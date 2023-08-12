@@ -9,7 +9,10 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\MyMarksController;
 use App\Http\Controllers\SubjectController;
+
 use App\Http\Controllers\MarkController;
+use App\Http\Controllers\AdvertisementController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,7 +40,13 @@ use App\Http\Controllers\MarkController;
 Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], function () { 
     Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->name('indexDoctor');
     Route::get('showDoctor/{id}', [EmployeeController::class, 'showDoctor'])->name('showDoctor');
-});
+
+    Route::prefix("Advertisement")->group(function (){
+      Route::get('/',[\App\Http\Controllers\AdvertisementController::class,'index']);
+      Route::get('/{id}',[\App\Http\Controllers\AdvertisementController::class,'show']);
+      
+      });  });
+
 // Route::middleware('auth:api')->group(function () {
 //   Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->middleware('scope:employee,doctor,user');
 // });
@@ -102,6 +111,15 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
       //  Route::post('update/{id}',[\App\Http\Controllers\MarkController::class,'update']);
         Route::post('delete/{id}',[\App\Http\Controllers\MarkController::class,'destroy']);
 
-
 });
+
+//Advertisement
+Route::prefix("Advertisement")->group(function (){
+
+  Route::post('/',[\App\Http\Controllers\AdvertisementController::class,'store']);
+  Route::post('update/{id}',[\App\Http\Controllers\AdvertisementController::class,'update']);
+  Route::post('delete/{id}',[\App\Http\Controllers\AdvertisementController::class,'destroy']);
+
+  });
+
  });
