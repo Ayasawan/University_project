@@ -32,4 +32,20 @@ class LikeController extends Controller
 
         return response()->json(null);
     }
+
+  
+    public function dislike($id)
+    {
+        $complaint = Complaint::find($id);
+        if ($complaint) {
+            $like = $complaint->likes()->where('user_id', Auth::id())->first();
+            if ($like) {
+                $like->delete(); // Remove the existing like (dislike the complaint)
+            }
+        }
+
+        return response()->json(null);
+    }
+
+
 }

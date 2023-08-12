@@ -55,6 +55,9 @@ class CommentController extends Controller
         if (!$complaint) {
             return $this->apiResponse(null, 'this complaint not found', 404);
         }
+        if($comment->user_id !=Auth::id()){
+            return $this->apiResponse(null, 'you do not have rights', 400);
+        }
         $comment = Comment::find($id2);
         $comment->update([
             'value' => $request->value,
@@ -77,6 +80,9 @@ class CommentController extends Controller
         $comment = Comment::find($id2);
         if (!$comment) {
             return $this->apiResponse(null, 'This Comment not found', 404);
+        }
+        if($comment->user_id !=Auth::id()){
+            return $this->apiResponse(null, 'you do not have rights', 400);
         }
         $comment->delete($id2);
         if ($comment) {

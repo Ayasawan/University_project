@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('FirstName');
             $table->string('LastName');
             $table->string('BirthPlace');
-            $table->string('user_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -36,25 +36,26 @@ Route::post('user/login', [PassportAuthController::class, 'userLogin'])->name('u
 Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
     Route::get('logout',[PassportAuthController::class,'logout'])->name('Logout');
     Route::get('userInfo',[PassportAuthController::class,'userInfo'])->name('userInfo');
+    Route::get('show/{id}',[PassportAuthController::class,'show'])->name('show_information');
 
     Route::post('update/{id}',[\App\Http\Controllers\PassportAuthController::class,'update_informations_user']);
     Route::post('change/{id}',[\App\Http\Controllers\PassportAuthController::class,'change_password']);
 
 
-  
+
 
 
 ///complaints
 Route::prefix("complaints")->group(function (){
-    Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
-    Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
+    //Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
+   // Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
     Route::post('/',[\App\Http\Controllers\ComplaintController::class,'store']);
     Route::post('update/{id}',[\App\Http\Controllers\ComplaintController::class,'update']);
     Route::post('delete/{id}',[\App\Http\Controllers\ComplaintController::class,'destroy']);
 
     //comment complaints
     Route::prefix("/{id}/comments")->group(function (){
-        Route::get('/', [CommentController::class, 'index']);
+      //  Route::get('/', [CommentController::class, 'index']);
         Route::post('/', [CommentController::class, 'store']);
         Route::post('/update/{comment}', [CommentController::class, 'update']);
         Route::post('/{comment}', [CommentController::class, 'destroy']);
@@ -63,8 +64,9 @@ Route::prefix("complaints")->group(function (){
 
     // likes  complaints routes
     Route::prefix("/{id}/likes")->group(function (){
-        Route::get('/', [LikeController::class, 'index']);
+      //  Route::get('/', [LikeController::class, 'index']);
         Route::post('/', [LikeController::class, 'store']);
+        Route::post('delete', [LikeController::class, 'dislike']);
     });
 
 
@@ -73,23 +75,29 @@ Route::prefix("complaints")->group(function (){
 
 
     Route::prefix("DetectingMark")->group(function (){
-        Route::get('/',[\App\Http\Controllers\DetectingMarkController::class,'index']);
-        Route::get('/{id}',[\App\Http\Controllers\DetectingMarkController::class,'show']);
-    
+
+        Route::get('/',[\App\Http\Controllers\DetectingMarkController::class,'indexfor1User']);
         Route::post('/',[\App\Http\Controllers\DetectingMarkController::class,'store']);
-        Route::post('update/{id}',[\App\Http\Controllers\DetectingMarkController::class,'update']);
-        Route::post('delete/{id}',[\App\Http\Controllers\DetectingMarkController::class,'destroy']);
+        Route::post('update/{id}',[\App\Http\Controllers\DetectingMarkController::class,'update_user']);
+        Route::post('delete/{id}',[\App\Http\Controllers\DetectingMarkController::class,'destroy_user']);
+
+
     });
-    
+    //RePractical
     Route::prefix("RePractical")->group(function (){
-        Route::get('/',[\App\Http\Controllers\RePracticalController::class,'index']);
-        Route::get('/{id}',[\App\Http\Controllers\RePracticalController::class,'index']);
-    
         Route::post('/',[\App\Http\Controllers\RePracticalController::class,'store']);
-        Route::post('update/{id}',[\App\Http\Controllers\RePracticalController::class,'update']);
-        Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
+        Route::get('/',[\App\Http\Controllers\RePracticalController::class,'indexfor1User']);
+        Route::post('update/{id}',[\App\Http\Controllers\RePracticalController::class,'update_user']);
+        Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy_user']);
     });
 
+ ///objection
+ Route::prefix("objection")->group(function (){
+    Route::get('/',[\App\Http\Controllers\ObjectionController::class,'indexfor1User']);
+    Route::post('/',[\App\Http\Controllers\ObjectionController::class,'store']);
+    Route::post('update/{id}',[\App\Http\Controllers\ObjectionController::class,'update_user']);
+    Route::post('delete/{id}',[\App\Http\Controllers\ObjectionController::class,'destroy_user']);
+});
 
 });
 

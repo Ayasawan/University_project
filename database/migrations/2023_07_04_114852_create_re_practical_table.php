@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('semester');
             $table->integer('year');
             $table->string('subject_name');
-//            $table->integer('employee_id');
-              $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

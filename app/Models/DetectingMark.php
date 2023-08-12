@@ -16,4 +16,9 @@ class DetectingMark extends Model
         'MatherName',
         'user_id',
     ];
+
+    public function User(){
+        return $this->belongsTo(User::class,'user_id');
+    }
+
 }
