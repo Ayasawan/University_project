@@ -14,6 +14,13 @@ class RePracticalResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id"=>$this->id,
+            "subject_name"=>$this->subject_name,
+            "yearyear"=>$this->year,
+            "semester"=>$this->semester,
+            "information_user"=>$this->User()->get(),
+        ];
+
     }
 }

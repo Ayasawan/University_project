@@ -18,6 +18,7 @@ class User extends Authenticatable
         'BirthPlace','Gender' ,'Location','Phone', 'ExamNumber' ,'Average','NationalNumber', 'email' ,
         'password'
     ];
+
     public function MyMarks(){
         return $this->hasMany(MyMarks::class,'user_id');
     }

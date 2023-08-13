@@ -36,7 +36,7 @@ Route::post('user/login', [PassportAuthController::class, 'userLogin'])->name('u
 Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user'] ],function(){
     Route::get('logout',[PassportAuthController::class,'logout'])->name('Logout');
     Route::get('userInfo',[PassportAuthController::class,'userInfo'])->name('userInfo');
-    Route::get('show/{id}',[PassportAuthController::class,'show'])->name('show_information');
+//    Route::get('show/{id}',[PassportAuthController::class,'show'])->name('show_information');
 
     Route::post('update/{id}',[\App\Http\Controllers\PassportAuthController::class,'update_informations_user']);
     Route::post('change/{id}',[\App\Http\Controllers\PassportAuthController::class,'change_password']);

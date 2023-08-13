@@ -46,6 +46,7 @@ use App\Http\Controllers\MarkController;
 Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], function () {
     Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->name('indexDoctor');
     Route::get('showDoctor/{id}', [EmployeeController::class, 'showDoctor'])->name('showDoctor');
+    Route::get('show_infoUser/{id}',[PassportAuthController::class,'show'])->name('show');
 
 
         ///complaints
@@ -75,7 +76,6 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
     Route::get('logout',[PassportAuthController::class,'employeelogout'])->name('employeeLogout');
     //user
     Route::get('index',[EmployeeController::class,'index'])->name('index');
-    Route::get('show/{id}',[PassportAuthController::class,'show'])->name('show');
 
     Route::post('addUser',[EmployeeController::class,'AddUser'])->name('AddUser');
     Route::post('updateUser/{id}',[EmployeeController::class,'updateUser'])->name('updateUser');
@@ -155,6 +155,7 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
         Route::post('update/{id}',[\App\Http\Controllers\RePracticalController::class,'update']);
         Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
     });
+
 //Route::get('complaints/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
 
  });

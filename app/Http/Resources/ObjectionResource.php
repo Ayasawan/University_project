@@ -14,6 +14,15 @@ class ObjectionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id"=>$this->id,
+            "subject_name"=>$this->subject_name,
+            "yearyear"=>$this->year,
+            "semester"=>$this->semester,
+            "type"=>$this->year,
+            "oldMark"=>$this->year,
+            "information_user"=>$this->User()->get(),
+        ];
+
     }
 }

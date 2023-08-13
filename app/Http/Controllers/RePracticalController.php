@@ -32,8 +32,6 @@ class RePracticalController extends Controller
             'semester' => 'required',
             'year' => 'required',
             'subject_name' => 'required',
-//            'employee_id' => 'required',
-//            'student_id'=> 'required',
 
         ]);
         if ($validator->fails()) {
