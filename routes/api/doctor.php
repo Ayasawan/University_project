@@ -30,6 +30,8 @@ Route::group( ['prefix' =>'doctor','middleware' => ['auth:doctor-api','scopes:do
 
 
     });
+
+
     
 });
 

@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DetectingMarkResource;
 use App\Models\DetectingMark;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
 
 class DetectingMarkController extends Controller
 {
@@ -16,6 +20,13 @@ class DetectingMarkController extends Controller
         return $this->apiResponse($DetectingMark, 'ok', 200);
     }
 
+    public function indexfor1User()
+    {
+        $user = Auth::user(); // Get the authenticated user
+        $DetectingMark = $user->detecting_marks;
+        return $this->apiResponse($DetectingMark, 'ok', 200);
+
+    }
     public function store(Request $request)
     {
         $input=$request->all();
@@ -72,6 +83,26 @@ class DetectingMarkController extends Controller
 
         }
     }
+    public function update_user(Request $request, $id)
+    {
+        $DetectingMark= DetectingMark::find($id);
+        if(!$DetectingMark)
+        {
+            return $this->apiResponse(null ,'the DetectingMark not found ',404);
+        }
+        if($DetectingMark->user_id !=Auth::id()){
+            return $this->apiResponse(null, 'you do not have rights', 400);
+        }
+        $DetectingMark->update($request->all());
+        if($DetectingMark)
+        {
+            return $this->apiResponse(new DetectingMarkResource($DetectingMark) , 'the objection update',201);
+
+        }
+    }
+
+
+
 
     public function destroy( $id)
     {
@@ -85,4 +116,18 @@ class DetectingMarkController extends Controller
             return $this->apiResponse(null ,'the DetectingMark delete ',200);
     }
 
+    public function destroy_user($id)
+    {
+        $DetectingMark = DetectingMark::find($id);
+        if(!$DetectingMark)
+        {
+            return $this->apiResponse(null ,'the DetectingMark not found ',404);
+        }
+        if($DetectingMark->user_id !=Auth::id()){
+            return $this->apiResponse(null, 'you do not have rights', 400);
+        }
+        $DetectingMark->delete($id);
+        if($DetectingMark)
+            return $this->apiResponse(null ,'the DetectingMark delete ',200);
+    }
 }

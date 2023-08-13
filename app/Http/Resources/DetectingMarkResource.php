@@ -14,6 +14,15 @@ class DetectingMarkResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "id"=>$this->id,
+            "FirstName"=>$this->FirstName,
+            "LastName"=>$this->LastName,
+            "FatherName"=>$this->FatherName,
+            "MatherName"=>$this->MatherName,
+            "BirthPlace"=>$this->BirthPlace,
+            "information_user"=>$this->User()->get(),
+        ];
+
     }
 }

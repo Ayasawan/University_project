@@ -21,7 +21,7 @@ class PassportAuthController extends Controller
 {
 
     use  ApiResponseTrait;
-    
+
 
 
 
@@ -44,32 +44,32 @@ class PassportAuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$request->NationalNumber.',NationalNumber'],
             'password' => ['required', 'string', 'min:8'],
         ]);
-    
+
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], 401);
         }
-    
+
         $national = $request->NationalNumber;
         $user = User::where('NationalNumber', $national)->first();
-    
+
         if (!$user) {
             return $this->apiResponse(null, 'Sorry, you do not have an account in this system', 404);
         }
-    
+
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->save();
-    
+
         if ($tokenResult = $user->createToken('Personal Access Token')) {
             $data["message"] = 'User successfully registered';
             $data["user_type"] = 'user';
             $data["user"] = $user;
             $data["token_type"] = 'Bearer';
             $data["access_token"] = $tokenResult->accessToken;
-    
+
             return response()->json($data, Response::HTTP_OK);
         }
-    
+
         return response()->json(['error' => ['Email and Password are wrong.']], 401);
     }
 
@@ -172,6 +172,14 @@ class PassportAuthController extends Controller
 
 
 
+    public function show_information($id)
+    {
+        $user= User::find($id);
+        if($user){
+            return $this->apiResponse(new UserResource($user) , 'ok' ,200);
+        }
+        return $this->apiResponse(null ,'the user not found' ,404);
+    }
 
 
 
@@ -292,32 +300,32 @@ public function employeeLogin(Request $request)
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$request->NationalNumber.',NationalNumber'],
             'password' => ['required', 'string', 'min:8'],
         ]);
-    
+
         if ($validator->fails()) {
             return response(['errors' => $validator->errors()->all()], 401);
         }
-    
+
         $national = $request->NationalNumber;
         $doctor = Doctor::where('NationalNumber', $national)->first();
-    
+
         if (!$doctor) {
             return $this->apiResponse(null, 'Sorry, you do not have an account in this system', 404);
         }
-    
+
         $doctor->email = $request->input('email');
         $doctor->password = Hash::make($request->input('password'));
         $doctor->save();
-    
+
         if ($tokenResult = $doctor->createToken('Personal Access Token')) {
             $data["message"] = 'User successfully registered';
             $data["user_type"] = 'doctor';
             $data["user"] = $doctor;
             $data["token_type"] = 'Bearer';
             $data["access_token"] = $tokenResult->accessToken;
-    
+
             return response()->json($data, Response::HTTP_OK);
         }
-    
+
         return response()->json(['error' => ['Email and Password are wrong.']], 401);
     }
 
@@ -350,7 +358,7 @@ public function employeeLogin(Request $request)
 
 
 
-    
+
     public function logoutDoctor(Request $request)
     {
         Auth::guard('doctor-api')->user()->token()->revoke();

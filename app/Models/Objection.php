@@ -12,7 +12,7 @@ class Objection extends Model
     protected $table = "objections";
     protected $fillable = ['date', 'year', 'semester', 'subjectName','type','oldMark','user_id'];
 
-    
+
     protected $casts = [
         'semester' => 'string'
     ];
@@ -20,8 +20,6 @@ class Objection extends Model
     protected $primaryKey = "id";
 
     public $timestamps=true ;
-
-
 
 
     public function User(){
@@ -37,5 +35,5 @@ class Objection extends Model
     {
         return ['first', 'second', 'third','fourth','fifth'];
     }
-    
+
 }
