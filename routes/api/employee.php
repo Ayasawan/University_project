@@ -12,7 +12,10 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\MyMarksController;
 use App\Http\Controllers\SubjectController;
+
 use App\Http\Controllers\MarkController;
+use App\Http\Controllers\AdvertisementController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,6 +51,12 @@ Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], functi
     Route::get('showDoctor/{id}', [EmployeeController::class, 'showDoctor'])->name('showDoctor');
     Route::get('show_infoUser/{id}',[PassportAuthController::class,'show'])->name('show');
 
+    Route::prefix("Advertisement")->group(function (){
+      Route::get('/',[\App\Http\Controllers\AdvertisementController::class,'index']);
+      Route::get('/{id}',[\App\Http\Controllers\AdvertisementController::class,'show']);
+      
+      });  });
+
 
         ///complaints
     Route::prefix("complaints")->group(function (){
@@ -61,7 +70,6 @@ Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], functi
           Route::get('/', [CommentController::class, 'index']);});
 
 
-    });
     });
 // Route::middleware('auth:api')->group(function () {
 //   Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->middleware('scope:employee,doctor,user');
@@ -130,8 +138,20 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
       //  Route::post('update/{id}',[\App\Http\Controllers\MarkController::class,'update']);
         Route::post('delete/{id}',[\App\Http\Controllers\MarkController::class,'destroy']);
 
+});
 
-     });
+//Advertisement
+Route::prefix("Advertisement")->group(function (){
+
+  Route::post('/',[\App\Http\Controllers\AdvertisementController::class,'store']);
+  Route::post('update/{id}',[\App\Http\Controllers\AdvertisementController::class,'update']);
+  Route::post('delete/{id}',[\App\Http\Controllers\AdvertisementController::class,'destroy']);
+
+  });
+
+
+
+     
      ///objection
  Route::prefix("objection")->group(function (){
   Route::get('/',[\App\Http\Controllers\ObjectionController::class,'index']);
@@ -158,4 +178,4 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
 
 //Route::get('complaints/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
 
- });
+});
