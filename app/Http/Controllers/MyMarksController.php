@@ -1,8 +1,8 @@
 <?php
 
-
 namespace App\Http\Controllers;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Employee;
 use App\Models\MyMarks;
 use Illuminate\Http\Request;
@@ -116,6 +116,77 @@ class MyMarksController extends Controller
     
     
 
+    //    public function calculateAverageForYear(Request $request)
+    //    {
+    //        $year = $request->input('year');
+           
+    //        $userId = Auth::id();
+           
+    //        $averages = MyMark::where('user_id', $userId)
+    //            ->whereYear('created_at', $year)
+    //            ->whereIn('semester', ['first', 'second'])
+    //            ->select('nameMark', 'semester', 'markNum')
+    //            ->get();
+           
+    //        $averageMarks = [];
+           
+    //        foreach ($averages as $average) {
+    //            $key = $average->nameMark . '-' . $average->semester;
+    //            $averageMarks[$key] = $average->markNum;
+    //        }
+           
+    //        $average = array_sum($averageMarks) / count($averageMarks);
+           
+    //        return response()->json(['year' => $year, 'average' => $average]);
+    //    }
+
+
+
+       protected function calculateAverageForYear($year, $userId)
+       {
+           $averages = MyMark::where('user_id', $userId)
+               ->whereYear('created_at', $year)
+               ->whereIn('semester', ['first', 'second'])
+               ->select('nameMark', 'semester', 'markNum')
+               ->get();
+           
+           $averageMarks = [];
+           $marksBySubject = [];
+        
+           foreach ($averages as $average) {
+               $key = $average->nameMark . '-' . $average->semester;
+               $averageMarks[$key] = $average->markNum;
+               $marksBySubject[$average->nameMark][] = [
+                   'semester' => $average->semester,
+                   'mark' => $average->markNum
+               ];
+           }
+           
+           $average = array_sum($averageMarks) / count($averageMarks);
+           
+           return ['average' => $average, 'marks_by_subject' => $marksBySubject];
+       }
+   
+
+
+
+       public function calculateAverageForAllYears()
+        {
+            $userId = Auth::id();
+            
+            $years = MyMark::where('user_id', $userId)
+                ->selectRaw('YEAR(created_at) as year')
+                ->groupBy('year')
+                ->pluck('year');
+            
+            $averagesByYear = [];
+            
+            foreach ($years as $year) {
+                $averagesByYear[$year] = $this->calculateAverageForYear($year, $userId);
+            }
+            
+            return response()->json(['averages_by_year' => $averagesByYear]);
+        }
 
 
 

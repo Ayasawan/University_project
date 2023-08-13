@@ -16,7 +16,7 @@ class ObjectionResource extends JsonResource
     {
         return [
             "id"=>$this->id,
-            "subject_name"=>$this->subject_name,
+            "subject_name"=>$this->subjectName,
             "yearyear"=>$this->year,
             "semester"=>$this->semester,
             "type"=>$this->year,
