@@ -99,5 +99,12 @@ Route::prefix("complaints")->group(function (){
     Route::post('delete/{id}',[\App\Http\Controllers\ObjectionController::class,'destroy_user']);
 });
 
+
+Route::prefix("MyMarks")->group(function (){
+    Route::get('indexFor1Userbyuser/{id}',[\App\Http\Controllers\MyMarksController::class,'indexfor1Userbyuser']);
+    Route::get('/{id}',[\App\Http\Controllers\MyMarksController::class,'show']);
+
+    });
+
 });
 

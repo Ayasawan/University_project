@@ -46,7 +46,13 @@ class MyMarksController extends Controller
             return $this->apiResponse($myMark, 'ok', 200);
         }
 
-
+        public function indexfor1Userbyuser()
+        {
+            $user = Auth::user(); // Get the authenticated user
+            $myMark = $user->MyMarks;
+            return $this->apiResponse($myMark, 'ok', 200);
+          
+        }
     
         
         public function store(Request $request)
