@@ -151,15 +151,6 @@ class PassportAuthController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
     public function show($id)
     {
         $user= User::find($id);
@@ -319,7 +310,7 @@ public function employeeLogin(Request $request)
         if ($tokenResult = $doctor->createToken('Personal Access Token')) {
             $data["message"] = 'User successfully registered';
             $data["user_type"] = 'doctor';
-            $data["user"] = $doctor;
+            $data["doctor"] = $doctor;
             $data["token_type"] = 'Bearer';
             $data["access_token"] = $tokenResult->accessToken;
 
@@ -348,6 +339,7 @@ public function employeeLogin(Request $request)
             config(['auth.guards.api.provider' => 'doctor']);
             $doctor = Doctor::select('doctors.*')->find(auth()->guard('doctor')->user()->id);
             $success =  $doctor;
+            $success["user_type"] = 'doctor ';
             $success['token'] =  $doctor->createToken('MyApp',['doctor'])->accessToken;
 
             return response()->json($success, 200);

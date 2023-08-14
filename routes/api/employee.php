@@ -54,28 +54,26 @@ Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], functi
     Route::prefix("Advertisement")->group(function (){
       Route::get('/',[\App\Http\Controllers\AdvertisementController::class,'index']);
       Route::get('/{id}',[\App\Http\Controllers\AdvertisementController::class,'show']);
-      
-      });  });
+    });
 
-
-        ///complaints
     Route::prefix("complaints")->group(function (){
-      Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
-      Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
+        Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
+        Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
 
-      Route::prefix("/{id}/likes")->group(function (){
-        Route::get('/', [LikeController::class, 'index']);});
+        Route::prefix("/{id}/likes")->group(function (){
+            Route::get('/', [LikeController::class, 'index']);});
 
         Route::prefix("/{id}/comments")->group(function (){
-          Route::get('/', [CommentController::class, 'index']);});
+            Route::get('/', [CommentController::class, 'index']);});
+         });
 
 
-    });
+
 // Route::middleware('auth:api')->group(function () {
 //   Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->middleware('scope:employee,doctor,user');
 // });
 
-
+});
 
 Route::post('employee/login',[\App\Http\Controllers\PassportAuthController::class,'employeeLogin'])->name('employeeLogin');
 
@@ -151,7 +149,7 @@ Route::prefix("Advertisement")->group(function (){
 
 
 
-     
+
      ///objection
  Route::prefix("objection")->group(function (){
   Route::get('/',[\App\Http\Controllers\ObjectionController::class,'index']);
@@ -176,6 +174,19 @@ Route::prefix("Advertisement")->group(function (){
         Route::post('delete/{id}',[\App\Http\Controllers\RePracticalController::class,'destroy']);
     });
 
+    ///complaints
+//    Route::prefix("complaints")->group(function (){
+//        Route::get('/',[\App\Http\Controllers\ComplaintController::class,'index']);
+//        Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
+//
+//        Route::prefix("/{id}/likes")->group(function (){
+//            Route::get('/', [LikeController::class, 'index']);});
+//
+//        Route::prefix("/{id}/comments")->group(function (){
+//            Route::get('/', [CommentController::class, 'index']);});
+//
+//
+//    });
 //Route::get('complaints/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
 
 });

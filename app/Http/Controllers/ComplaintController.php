@@ -23,7 +23,7 @@ class ComplaintController extends Controller
         $user = Auth::user(); // Get the authenticated user
         $Complaint = $user->Complaints;
         return $this->apiResponse($Complaint, 'ok', 200);
-      
+
     }
 
     public function store(Request $request)
@@ -32,7 +32,6 @@ class ComplaintController extends Controller
         $validator = Validator::make( $input, [
             'title' => 'required',
             'content' => 'required',
-        
         ]);
         if ($validator->fails()) {
             return $this->apiResponse(null, $validator->errors(), 400);
@@ -43,13 +42,12 @@ class ComplaintController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-
-
         if ($Complaint) {
             return $this->apiResponse(new ComplaintResource($Complaint), 'the Complaint  save', 201);
         }
         return $this->apiResponse(null, 'the Complaint  not save', 400);
     }
+
 
     public function show($id)
     {
@@ -104,7 +102,7 @@ class ComplaintController extends Controller
         if(!$complaint){
             return $this->apiResponse(null, 'This Complaint not found', 404);
         }
-    
+
         $complaint->delete($id);
             return $this->apiResponse(null, 'This complaint deleted', 200);
 

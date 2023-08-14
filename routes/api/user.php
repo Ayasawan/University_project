@@ -48,14 +48,12 @@ Route::group( ['prefix' =>'user','middleware' => ['auth:user-api','scopes:user']
 ///complaints
 Route::prefix("complaints")->group(function (){
     Route::get('/',[\App\Http\Controllers\ComplaintController::class,'indexfor1User']);
-   // Route::get('/{id}',[\App\Http\Controllers\ComplaintController::class,'show']);
     Route::post('/',[\App\Http\Controllers\ComplaintController::class,'store']);
     Route::post('update/{id}',[\App\Http\Controllers\ComplaintController::class,'update']);
     Route::post('delete/{id}',[\App\Http\Controllers\ComplaintController::class,'destroy_user']);
 
     //comment complaints
     Route::prefix("/{id}/comments")->group(function (){
-      //  Route::get('/', [CommentController::class, 'index']);
         Route::post('/', [CommentController::class, 'store']);
         Route::post('/update/{comment}', [CommentController::class, 'update']);
         Route::post('/{comment}', [CommentController::class, 'destroy']);
