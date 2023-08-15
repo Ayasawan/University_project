@@ -191,6 +191,7 @@ class EmployeeController extends Controller
             return $this->apiResponse(new DoctorResource($doctor) , 'the doctor updated',201);
 
         }
+        
     }
 
 

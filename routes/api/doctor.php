@@ -22,8 +22,8 @@ Route::group( ['prefix' =>'doctor','middleware' => ['auth:doctor-api','scopes:do
 
 
     Route::prefix("/{id1}/Lecture")->group(function (){
-        Route::get('/',[\App\Http\Controllers\LectureController::class,'index']);
-        Route::get('/{id}',[\App\Http\Controllers\LectureController::class,'show']);
+        // Route::get('/',[\App\Http\Controllers\LectureController::class,'index']);
+        // Route::get('/{id}',[\App\Http\Controllers\LectureController::class,'show']);
         Route::post('/',[\App\Http\Controllers\LectureController::class,'store']);
         Route::post('update/{id}',[\App\Http\Controllers\LectureController::class,'update']);
         Route::post('delete/{id}',[\App\Http\Controllers\LectureController::class,'destroy']);

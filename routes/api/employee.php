@@ -67,6 +67,17 @@ Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], functi
             Route::get('/', [CommentController::class, 'index']);});
          });
 
+         Route::prefix("Subject")->group(function (){
+          Route::get('/',[\App\Http\Controllers\SubjectController::class,'index']);
+          Route::get('/{id}',[\App\Http\Controllers\SubjectController::class,'show']);
+        });
+
+        
+    Route::prefix("/{id1}/Lecture")->group(function (){
+      Route::get('/',[\App\Http\Controllers\LectureController::class,'index']);
+      Route::get('/{id}',[\App\Http\Controllers\LectureController::class,'show']);
+    });
+
 
 
 // Route::middleware('auth:api')->group(function () {
@@ -92,15 +103,15 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
   // Route::get('indexDoctor',[EmployeeController::class,'indexDoctor'])->name('indexDoctor');
    Route::post('AddDoctor',[EmployeeController::class,'AddDoctor'])->name('AddDoctor');
    Route::post('updateDoctor/{id}',[EmployeeController::class,'updateDocdor'])->name('updateDocdor');
-   Route::get('showDoctor/{id}',[EmployeeController::class,'showDoctor'])->name('showDoctor');
+   //Route::get('showDoctor/{id}',[EmployeeController::class,'showDoctor'])->name('showDoctor');
    Route::post('destroyDoctor/{id}',[EmployeeController::class,'destroyDoctor'])->name('destroyDoctor');
 
 
 
    //subjects
    Route::prefix("Subject")->group(function (){
-    Route::get('/',[\App\Http\Controllers\SubjectController::class,'index']);
-    Route::get('/{id}',[\App\Http\Controllers\SubjectController::class,'show']);
+    // Route::get('/',[\App\Http\Controllers\SubjectController::class,'index']);
+    // Route::get('/{id}',[\App\Http\Controllers\SubjectController::class,'show']);
     Route::post('/',[\App\Http\Controllers\SubjectController::class,'store']);
     Route::post('update/{id}',[\App\Http\Controllers\SubjectController::class,'update']);
     Route::post('delete/{id}',[\App\Http\Controllers\SubjectController::class,'destroy']);
@@ -115,6 +126,7 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
     Route::post('/',[\App\Http\Controllers\MyMarksController::class,'store']);
     Route::post('update/{id}',[\App\Http\Controllers\MyMarksController::class,'update']);
     Route::post('delete/{id}',[\App\Http\Controllers\MyMarksController::class,'destroy']);
+    Route::post('importtttttt',[\App\Http\Controllers\MyMarksController::class,'importFileMark']);
     });
 
 

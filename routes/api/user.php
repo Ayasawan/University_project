@@ -4,6 +4,7 @@ use App\Http\Controllers\PassportAuthController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MyMarksController;
 use App\Http\Controllers\ComplaintController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,9 +99,14 @@ Route::prefix("complaints")->group(function (){
 });
 
 
+
+Route::get('AverageForAllYears',[\App\Http\Controllers\MyMarksController::class,'calculateAverageForAllYears']);
+
 Route::prefix("MyMarks")->group(function (){
-    Route::get('indexFor1Userbyuser/{id}',[\App\Http\Controllers\MyMarksController::class,'indexfor1Userbyuser']);
+   Route::get('indexFor1Userbyuser/{id}',[\App\Http\Controllers\MyMarksController::class,'indexfor1Userbyuser']);
     Route::get('/{id}',[\App\Http\Controllers\MyMarksController::class,'show']);
+    Route::get('calculateAverageForYear/{year}',[\App\Http\Controllers\MyMarksController::class,'calculateAverageForYear']);
+
 
     });
 

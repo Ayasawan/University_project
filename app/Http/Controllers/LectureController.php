@@ -45,7 +45,7 @@ class LectureController extends Controller
             if ($request->hasFile('pdf')) {
                 $file = $request->file('pdf');
                 $fileName = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('PDF/Mark'), $fileName);
+                $file->move(public_path('PDF/Lecture'), $fileName);
             
             }
         

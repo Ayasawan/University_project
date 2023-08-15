@@ -44,7 +44,21 @@ class MarkController extends Controller
                 'Employee_id' => auth()->id(),
               
             ]);
+        // if ($request->hasFile('PDF')) {
+        //     $file = $request->file('PDF');
+        //     $fileName = time() . '_' . $file->getClientOriginalName();
+        //     $file->move(public_path('PDF/Mark'), $fileName);
+        //     $filePath = 'PDF/Mark/' . $fileName; // Construct the file path
+        
+        //     $mark = Mark::create([
+        //         'SubjectName' => $request->input('SubjectName'),
+        //         'year' => $request->input('year'),
+        //         'Specialization' => $request->input('Specialization'),
+        //         'PDF' => $filePath, // Store the file path
+        //         'Employee_id' => auth()->id(),
+        //     ]);
     
+
             if ($mark) {
                 return response()->json(['message' => 'File of Marks saved successfully'], 200);
             }
@@ -120,6 +134,8 @@ class MarkController extends Controller
             return response()->download($pdfPath, $mark->PDF, $headers);
         }
 
+
+     
 }
 
 

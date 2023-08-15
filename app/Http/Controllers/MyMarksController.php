@@ -12,6 +12,8 @@ use App\Http\Resources\MyMarksResource;
 use App\Http\Requests\MyMarkRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;
+use App\Imports\MarksImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MyMarksController extends Controller
 {
@@ -148,9 +150,10 @@ class MyMarksController extends Controller
 
 
 
-       protected function calculateAverageForYear($year, $userId)
+       protected function calculateAverageForYear($year)
        {
-           $averages = MyMark::where('user_id', $userId)
+        $userId = Auth::id();
+           $averages = MyMarks::where('user_id', $userId)
                ->whereYear('created_at', $year)
                ->whereIn('semester', ['first', 'second'])
                ->select('nameMark', 'semester', 'markNum')
@@ -180,9 +183,15 @@ class MyMarksController extends Controller
         {
             $userId = Auth::id();
             
-            $years = MyMark::where('user_id', $userId)
-                ->selectRaw('YEAR(created_at) as year')
-                ->groupBy('year')
+            // $years = MyMarks::where('user_id', $userId)
+            //     ->selectRaw('YEAR(created_at) as year')
+            //     ->groupBy('year')
+            //     ->pluck('year');
+                
+                
+                $years = MyMarks::where('user_id', $userId)
+                ->selectRaw('YEAR(created_at) as year, created_at')
+                ->groupBy('year', 'created_at')
                 ->pluck('year');
             
             $averagesByYear = [];
@@ -196,4 +205,20 @@ class MyMarksController extends Controller
 
 
 
+        public function importFileMark(Request $request) {
+            $file = request()->file('file');
+        
+          //  (new MarksImport)->import($file);
+            Excel::import(new MarksImport,$file);
+            return $this->apiResponse(null ,'the Marks imported successfully. ',200);
+            //return redirect()->back()->with('success', 'Marks imported successfully.');
+        }
+
+
+        public function import() 
+        {
+            Excel::import(new UsersImport, 'users.xlsx');
+            
+            return redirect('/')->with('success', 'All good!');
+        }
 }

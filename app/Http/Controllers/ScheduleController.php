@@ -32,7 +32,7 @@ class ScheduleController extends Controller
         if ($request->hasFile('PDF')) {
             $file = $request->file('PDF');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('PDF'), $fileName);
+            $file->move(public_path('PDF/Schedule'), $fileName);
            
             $schedule = Schedule::create([
                 'name' => $request->input('name'),
