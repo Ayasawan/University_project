@@ -11,8 +11,8 @@ return new class extends Migration
     {
         Schema::create('re_practical', function (Blueprint $table) {
             $table->id();
-            $table->string('semester');
-            $table->integer('year');
+            $table->enum('semester', ['first', 'second', 'third','null']);
+            $table->enum('year', ['first', 'second', 'third','fourth','fifth','null']);
             $table->string('subject_name');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

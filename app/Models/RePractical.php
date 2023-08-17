@@ -20,4 +20,14 @@ class RePractical extends Model
     public function User(){
         return $this->belongsTo(User::class,'user_id');
     }
+    
+    public static function getAllowedSemesters()
+    {
+        return ['first', 'second', 'third'];
+    }
+
+    public static function getAllowedYears()
+    {
+        return ['first', 'second', 'third','fourth','fifth'];
+    }
 }

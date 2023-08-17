@@ -78,6 +78,11 @@ Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], functi
       Route::get('/{id}',[\App\Http\Controllers\LectureController::class,'show']);
     });
 
+    Route::prefix("schedules")->group(function (){
+      Route::get('/',[\App\Http\Controllers\ScheduleController::class,'index']);
+      Route::get('/{id}',[\App\Http\Controllers\ScheduleController::class,'show']);
+    });
+
 
 
 // Route::middleware('auth:api')->group(function () {
@@ -131,8 +136,8 @@ Route::group( ['prefix' => 'employee','middleware' => ['auth:employee-api','scop
 
 
     Route::prefix("schedules")->group(function (){
-        Route::get('/',[\App\Http\Controllers\ScheduleController::class,'index']);
-        Route::get('/{id}',[\App\Http\Controllers\ScheduleController::class,'show']);
+        // Route::get('/',[\App\Http\Controllers\ScheduleController::class,'index']);
+        // Route::get('/{id}',[\App\Http\Controllers\ScheduleController::class,'show']);
         Route::post('/',[\App\Http\Controllers\ScheduleController::class,'store']);
       //  Route::post('update/{id}',[\App\Http\Controllers\ScheduleController::class,'update']);
         Route::post('delete/{id}',[\App\Http\Controllers\ScheduleController::class,'destroy']);
