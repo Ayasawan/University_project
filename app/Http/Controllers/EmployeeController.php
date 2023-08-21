@@ -142,6 +142,13 @@ class EmployeeController extends Controller
         $doctor = DoctorResource::collection(Doctor::get());
         return $this->apiResponse($doctor, 'ok', 200);
     }
+
+        public function DoctorWorkingTime()
+    {
+        $doctors = Doctor::select('first_name', 'last_name', 'working_time')->get();
+        return $this->apiResponse($doctors, 'ok', 200);
+    }
+
     public function AddDoctor(Request $request)
     {
         $input=$request->all();

@@ -50,6 +50,8 @@ Route::group(['middleware' => ['auth:doctor-api,user-api,employee-api']], functi
     Route::get('indexDoctor', [EmployeeController::class, 'indexDoctor'])->name('indexDoctor');
     Route::get('showDoctor/{id}', [EmployeeController::class, 'showDoctor'])->name('showDoctor');
     Route::get('show_infoUser/{id}',[PassportAuthController::class,'show'])->name('show');
+    Route::get('DoctorTime', [EmployeeController::class, 'DoctorWorkingTime'])->name('DoctorWorkingTime');
+
 
     Route::prefix("Advertisement")->group(function (){
       Route::get('/',[\App\Http\Controllers\AdvertisementController::class,'index']);
