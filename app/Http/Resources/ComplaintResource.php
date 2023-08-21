@@ -21,6 +21,7 @@ class ComplaintResource extends JsonResource
          "title"=>$this->title,
             "content"=>$this->content,
             "comments of complaint"=>$this->comments()->get(),
+            "likes of complaint"=>$this->likes()->get(),
         ];
             }
 }
